@@ -1,5 +1,6 @@
 import SwiftUI
 import AppKit
+import ServiceManagement
 
 // MARK: - Constants
 
@@ -26,6 +27,9 @@ struct ClipboardApp: App {
     
     // State object to manage clipboard history and monitoring
     @StateObject private var clipboardMonitor = ClipboardMonitor()
+    
+    // Launch at login state
+    @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
 
     var body: some Scene {
         MenuBarExtra("Clipboard", systemImage: "doc.on.clipboard") {
@@ -42,6 +46,24 @@ struct ClipboardApp: App {
                     clipboardMonitor.clearHistory()
                 }
             }
+            
+            Divider()
+            
+            Toggle("Launch at Login", isOn: Binding(
+                get: { launchAtLogin },
+                set: { newValue in
+                    launchAtLogin = newValue
+                    do {
+                        if newValue {
+                            try SMAppService.mainApp.register()
+                        } else {
+                            try SMAppService.mainApp.unregister()
+                        }
+                    } catch {
+                        print("Failed to toggle launch at login: \(error)")
+                    }
+                }
+            ))
             
             Divider()
             
