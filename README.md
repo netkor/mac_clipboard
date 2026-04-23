@@ -3,7 +3,7 @@
 A lightweight, purely native macOS menu bar app for managing your clipboard history. Written completely in Swift and SwiftUI.
 
 <p align="center">
-  <!-- 💡 Tip: Add a screenshot of the menu bar app here! -->
+<img src="./image.png" width="100" alt="Clipboard Manager Icon">
 </p>
 
 ## ✨ Features
